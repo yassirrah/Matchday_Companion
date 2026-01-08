@@ -5,7 +5,6 @@ import lombok.Data;
 
 import java.time.OffsetDateTime;
 
-@Data
 @Entity
 @Table(name = "venue_status")
 public class VenueStatus {
@@ -22,4 +21,37 @@ public class VenueStatus {
 
     @Column(name="updated_by_device")
     private String updatedByDevice;
+
+
+    public String getVenueId() {
+        return venueId;
+    }
+
+    public void setVenueId(String venueId) {
+        this.venueId = venueId;
+    }
+
+    public CrowdStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(CrowdStatus status) {
+        this.status = status;
+    }
+
+    public OffsetDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(OffsetDateTime updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    public String getUpdatedByDevice() {
+        return updatedByDevice;
+    }
+
+    public void setUpdatedByDevice(String updatedByDevice) {
+        this.updatedByDevice = updatedByDevice;
+    }
 }

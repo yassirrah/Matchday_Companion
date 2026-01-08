@@ -1,6 +1,10 @@
 server:
   port: 8080
 
+logging:
+  level:
+    ma.yassir.matchday: INFO
+
 spring:
   application:
     name: matchday-backend
@@ -26,3 +30,7 @@ management:
     web:
       exposure:
         include: health,info
+
+app:
+  cors:
+    allowed-origins: http://localhost:5173

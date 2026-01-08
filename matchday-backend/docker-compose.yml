@@ -10,6 +10,27 @@ services:
       - "5432:5432"
     volumes:
       - matchday_pg:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U matchday -d matchday"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  api:
+    build: .
+    container_name: matchday_api
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/matchday
+      SPRING_DATASOURCE_USERNAME: matchday
+      SPRING_DATASOURCE_PASSWORD: matchday
+      SPRING_JPA_HIBERNATE_DDL_AUTO: validate
+      SPRING_FLYWAY_ENABLED: "true"
+      APP_CORS_ALLOWED_ORIGINS: http://localhost:5173
+    ports:
+      - "8080:8080"
 
 volumes:
   matchday_pg:

@@ -6,7 +6,6 @@ import lombok.Data;
 import java.time.OffsetDateTime;
 import java.util.UUID;
 
-@Data
 @Entity
 @Table(name = "venue_status_update",
         indexes = {
@@ -35,6 +34,46 @@ public class VenueStatusUpdate {
     void prePersist() {
         if (id == null) id = UUID.randomUUID();
         if (createdAt == null) createdAt = OffsetDateTime.now();
+    }
+
+    public UUID getId() {
+        return id;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
+
+    public String getVenueId() {
+        return venueId;
+    }
+
+    public void setVenueId(String venueId) {
+        this.venueId = venueId;
+    }
+
+    public CrowdStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(CrowdStatus status) {
+        this.status = status;
+    }
+
+    public String getDeviceId() {
+        return deviceId;
+    }
+
+    public void setDeviceId(String deviceId) {
+        this.deviceId = deviceId;
+    }
+
+    public OffsetDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(OffsetDateTime createdAt) {
+        this.createdAt = createdAt;
     }
 
 }
