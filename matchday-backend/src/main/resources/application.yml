@@ -4,6 +4,7 @@ server:
 logging:
   level:
     ma.yassir.matchday: INFO
+    org.flywaydb: DEBUG
 
 spring:
   application:
