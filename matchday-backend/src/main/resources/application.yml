@@ -5,6 +5,8 @@ logging:
   level:
     ma.yassir.matchday: INFO
     org.flywaydb: DEBUG
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%thread] %logger{36} - [%X{requestId}] %msg%n"
 
 spring:
   application:
