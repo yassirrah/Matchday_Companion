@@ -1,0 +1,31 @@
+spring:
+  datasource:
+    url: ${SPRING_DATASOURCE_URL}
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
+  flyway:
+    enabled: true
+
+# Restrict actuator surface area
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "health,info"
+  endpoint:
+    health:
+      probes:
+        enabled: true
+  # Stronger: bind actuator only to localhost inside the container/host
+  server:
+    address: ${MANAGEMENT_ADDRESS:127.0.0.1}
+    port: ${MANAGEMENT_PORT:8081}
+
+app:
+  cors:
+    allowed-origins: ${APP_CORS_ALLOWED_ORIGINS}
+
+logging:
+  level:
+    root: ${LOGGING_LEVEL_ROOT:INFO}
+    ma.yassir.matchday: ${LOGGING_LEVEL_APP:INFO}

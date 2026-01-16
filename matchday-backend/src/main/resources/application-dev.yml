@@ -1,0 +1,22 @@
+spring:
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/matchday}
+    username: ${SPRING_DATASOURCE_USERNAME:matchday}
+    password: ${SPRING_DATASOURCE_PASSWORD:matchday}
+  flyway:
+    enabled: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+app:
+  cors:
+    allowed-origins: ${APP_CORS_ALLOWED_ORIGINS:http://localhost:4200,http://localhost:3000}
+
+logging:
+  level:
+    root: ${LOGGING_LEVEL_ROOT:INFO}
+    ma.yassir.matchday: ${LOGGING_LEVEL_APP:DEBUG}

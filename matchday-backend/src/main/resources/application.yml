@@ -1,39 +1,7 @@
-server:
-  port: 8080
-
-logging:
-  level:
-    ma.yassir.matchday: INFO
-    org.flywaydb: DEBUG
-  pattern:
-    console: "%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%thread] %logger{36} - [%X{requestId}] %msg%n"
-
 spring:
   application:
     name: matchday-backend
-
-  datasource:
-    url: jdbc:postgresql://localhost:5432/matchday
-    username: matchday
-    password: matchday
-
-  jpa:
-    hibernate:
-      ddl-auto: validate
-    properties:
-      hibernate:
-        format_sql: true
-    open-in-view: false
-
-  flyway:
-    enabled: true
-
-management:
-  endpoints:
-    web:
-      exposure:
-        include: health,info
-
-app:
-  cors:
-    allowed-origins: http://localhost:5173
+  profiles:
+    default: dev
+server:
+  port: ${SERVER_PORT:8080}
