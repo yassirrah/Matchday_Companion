@@ -5,6 +5,7 @@ package ma.yassir.matchday.matchday_backend.controller;
 import ma.yassir.matchday.matchday_backend.service.CooldownActiveException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -16,17 +17,20 @@ import ma.yassir.matchday.matchday_backend.dto.ErrorResponse;
 public class GlobalExceptionHandler {
 
     Logger log = LoggerFactory.getLogger(GlobalExceptionHandler.class);
+
     @ExceptionHandler(CooldownActiveException.class)
-    public ResponseEntity<ErrorResponse> handCoolDown(CooldownActiveException ex){
+    public ResponseEntity<ErrorResponse> handCoolDown(CooldownActiveException ex) {
 
         log.debug("returning 429 cooldown (retryAfterSeconds {})", ex.getRetryAfterSeconds());
         HttpHeaders headers = new HttpHeaders();
 
-        headers.add("Retry-after", String.valueOf(ex.getRetryAfterSeconds()));
+        headers.add("Retry-After", String.valueOf(ex.getRetryAfterSeconds()));
         return ResponseEntity.status(429)
-                .headers(headers).body(new ErrorResponse("COOLDOWN_ACTIVE",
+                .headers(headers).body(new ErrorResponse(
+                        "COOLDOWN_ACTIVE",
                         "You can update this venue again later.",
-                        ex.getRetryAfterSeconds()));
+                        ex.getRetryAfterSeconds(),
+                        MDC.get("requestId")));
     }
 
 
@@ -35,8 +39,27 @@ public class GlobalExceptionHandler {
         return ResponseEntity.badRequest().body(new ErrorResponse(
                 "VALIDATION_ERROR",
                 "Invalid request body",
-                null
+                null,
+                MDC.get("requestId")));
+    }
+
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<ErrorResponse> handleBadRequest(IllegalArgumentException ex) {
+        return ResponseEntity.badRequest().body(new ErrorResponse(
+                "BAD_REQUEST",
+                ex.getMessage(),
+                null,
+                MDC.get("requestId")
         ));
     }
 
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ErrorResponse> handleUnknown(Exception ex) {
+        log.error("unknown exception", ex);
+        return ResponseEntity.badRequest().body(new ErrorResponse("INTERNAL_ERROR",
+                "Unexpected error.",
+                null,
+                MDC.get("requestId")));
+    }
 }
