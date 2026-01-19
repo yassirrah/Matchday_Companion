@@ -8,5 +8,4 @@ public record VenueStatusDto(
         String venueId,
         CrowdStatus status,
         OffsetDateTime updatedAt
-) {
-}
+) {}

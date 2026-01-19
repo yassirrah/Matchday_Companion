@@ -25,7 +25,6 @@ public class VenueStatusController {
         this.venueStatusService = venueStatusService;
     }
 
-    // GET /api/v1/venue-status?city=Rabat
     @Operation(summary = "List all venue crowd statuses (frontend filters by city in V1)")
     @GetMapping
     public VenueStatusResponse list(@RequestParam() String city) {
@@ -34,7 +33,6 @@ public class VenueStatusController {
         return new VenueStatusResponse(city, items);
     }
 
-    // GET /api/v1/venue-status/{venueId}
     @Operation(summary = "Get crowd status for one venue by venueId")
     @GetMapping("/{venueId}")
     public ResponseEntity<VenueStatusDto> getOne(@PathVariable String venueId) {
