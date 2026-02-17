@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Matchday Companion V1</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/app.css" />
+</head>
+<body>
+  <div class="bg-orb orb-1"></div>
+  <div class="bg-orb orb-2"></div>
+  <main class="app-shell">
+    <header class="hero">
+      <p class="eyebrow">Matchday Companion</p>
+      <h1>Live Venue Crowd Pulse</h1>
+      <p class="hero-copy">Track crowd intensity and submit updates with device-level cooldown protection.</p>
+    </header>
+
+    <section class="panel controls">
+      <div class="row">
+        <label for="cityInput">City</label>
+        <input id="cityInput" type="text" placeholder="Casablanca" />
+      </div>
+      <div class="row">
+        <label for="venueInput">Venue ID</label>
+        <input id="venueInput" type="text" placeholder="venue-001" />
+      </div>
+      <div class="row">
+        <label for="statusInput">Status</label>
+        <select id="statusInput">
+          <option value="QUIET">QUIET</option>
+          <option value="OK" selected>OK</option>
+          <option value="PACKED">PACKED</option>
+        </select>
+      </div>
+      <div class="actions">
+        <button id="refreshBtn" class="btn btn-outline">Refresh</button>
+        <button id="submitBtn" class="btn btn-primary">Submit Update</button>
+      </div>
+      <p id="deviceIdLine" class="meta"></p>
+      <p id="feedback" class="feedback" role="status" aria-live="polite"></p>
+    </section>
+
+    <section class="panel">
+      <div class="list-header">
+        <h2>Venues</h2>
+        <span id="countBadge" class="badge">0</span>
+      </div>
+      <div id="venueList" class="venue-list"></div>
+    </section>
+  </main>
+
+  <template id="venueTemplate">
+    <article class="venue-card">
+      <div class="venue-top">
+        <h3 class="venue-id"></h3>
+        <span class="status-pill"></span>
+      </div>
+      <p class="updated-at"></p>
+      <div class="quick-actions">
+        <button class="chip" data-status="QUIET">QUIET</button>
+        <button class="chip" data-status="OK">OK</button>
+        <button class="chip" data-status="PACKED">PACKED</button>
+      </div>
+    </article>
+  </template>
+
+  <script type="module" src="/app.js"></script>
+</body>
+</html>

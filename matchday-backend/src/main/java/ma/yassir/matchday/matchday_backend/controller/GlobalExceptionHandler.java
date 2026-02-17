@@ -8,7 +8,10 @@ import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.MissingRequestHeaderException;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import ma.yassir.matchday.matchday_backend.dto.ErrorResponse;
@@ -43,6 +46,20 @@ public class GlobalExceptionHandler {
                 MDC.get("requestId")));
     }
 
+    @ExceptionHandler({
+            MissingServletRequestParameterException.class,
+            MissingRequestHeaderException.class,
+            HttpMessageNotReadableException.class
+    })
+    public ResponseEntity<ErrorResponse> handleMalformedRequest(Exception ex) {
+        return ResponseEntity.badRequest().body(new ErrorResponse(
+                "BAD_REQUEST",
+                "Missing or invalid request input.",
+                null,
+                MDC.get("requestId")
+        ));
+    }
+
 
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<ErrorResponse> handleBadRequest(IllegalArgumentException ex) {
@@ -57,7 +74,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleUnknown(Exception ex) {
         log.error("unknown exception", ex);
-        return ResponseEntity.badRequest().body(new ErrorResponse("INTERNAL_ERROR",
+        return ResponseEntity.status(500).body(new ErrorResponse("INTERNAL_ERROR",
                 "Unexpected error.",
                 null,
                 MDC.get("requestId")));
